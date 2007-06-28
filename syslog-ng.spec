@@ -15,7 +15,7 @@ Source3:	syslog-ng.conf
 Source4:	syslog-ng.logrotate
 BuildRequires:	flex
 BuildRequires:	libol-devel >= 0.2.23
-BuildRequires:	libnet2-devel 
+BuildRequires:	net2-devel 
 BuildRequires:	eventlog-devel
 Requires(post):	rpm-helper
 Requires(preun):rpm-helper
