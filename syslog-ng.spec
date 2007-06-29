@@ -17,6 +17,9 @@ BuildRequires:	flex
 BuildRequires:	libol-devel >= 0.2.23
 BuildRequires:	net2-devel 
 BuildRequires:	eventlog-devel
+BuildRequires:	glib2-devel
+BuildRequires:	libwrap-devel
+BuildRequires:	openssl-devel
 Requires(post):	rpm-helper
 Requires(preun):rpm-helper
 Buildroot:	%{_tmppath}/%{name}-%{version}
