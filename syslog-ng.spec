@@ -1,11 +1,11 @@
 %define name    syslog-ng
 %define version 2.0.4
-%define release %mkrel 1
+%define release %mkrel 2
 
-Summary:	Syslog-ng daemon
 Name:		%{name}
 Version:	%{version}
 Release:	%{release}
+Summary:	Syslog-ng daemon
 Group:		System/Kernel and hardware
 License:	GPL
 Url:		http://www.balabit.com/products/syslog_ng/
