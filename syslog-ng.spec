@@ -49,6 +49,15 @@ mkdir -p %{buildroot}%{_initrddir}
 install -m 755 %{SOURCE2} %{buildroot}%{_initrddir}/syslog-ng
 install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/syslog-ng.conf
 
+install -d -m 755 %{buildroot}%{_docdir}/%{name}
+install -m 644 README AUTHORS COPYING ChangeLog NEWS VERSION %{buildroot}%{_docdir}/%{name}
+install -d -m 755 %{buildroot}%{_docdir}/%{name}/{reference,examples,security}
+install -m 644 doc/examples/* %{buildroot}%{_docdir}/%{name}/examples
+install -m 644 doc/security/* %{buildroot}%{_docdir}/%{name}/security
+install -m 644 doc/reference/syslog-ng.txt %{buildroot}%{_docdir}/%{name}/reference
+tar xzf doc/reference/syslog-ng.html.tar.gz --to-stdout syslog-ng.html/index.html > %{buildroot}%{_docdir}/%{name}/reference/syslog-ng.html
+install -m 644 doc/reference/syslog-ng.txt %{buildroot}%{_docdir}/%{name}/reference
+
 %post
 %_post_service %{name}
 
@@ -65,8 +74,7 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
-%doc AUTHORS COPYING README ChangeLog NEWS VERSION
-%doc doc/examples doc/reference doc/security
+%{_docdir}/%{name}
 %config(noreplace) %{_sysconfdir}/syslog-ng.conf
 %{_initrddir}/syslog-ng
 /sbin/syslog-ng
