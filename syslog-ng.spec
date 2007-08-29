@@ -20,6 +20,7 @@ BuildRequires:	eventlog-devel
 BuildRequires:	glib2-devel
 BuildRequires:	libwrap-devel
 BuildRequires:	openssl-devel
+Provides:       syslog-daemon
 Requires(post):	rpm-helper
 Requires(preun):rpm-helper
 Buildroot:	%{_tmppath}/%{name}-%{version}
