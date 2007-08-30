@@ -1,6 +1,6 @@
 %define name    syslog-ng
 %define version 2.0.4
-%define release %mkrel 3
+%define release %mkrel 4
 
 Name:		%{name}
 Version:	%{version}
@@ -10,6 +10,7 @@ Group:		System/Kernel and hardware
 License:	GPL
 Url:		http://www.balabit.com/products/syslog_ng/
 Source0: 	http://www.balabit.com/downloads/syslog-ng/2.0/src/%{name}-%{version}.tar.gz
+Source1:	syslog-ng.sysconfig
 Source2:	syslog-ng.init
 Source3:	syslog-ng.conf
 Source4:	syslog-ng.logrotate
@@ -45,8 +46,12 @@ ideal for firewalled environments.
 rm -rf %{buildroot}
 %makeinstall_std
 
-mkdir -p %{buildroot}%{_initrddir}
+# init script
+install -d -m 755 %{buildroot}%{_initrddir}
 install -m 755 %{SOURCE2} %{buildroot}%{_initrddir}/syslog-ng
+install -d -m 755 %{buildroot}%{_sysconfdir}/sysconfig
+install -m 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/sysconfig/syslog-ng
+
 install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/syslog-ng.conf
 
 install -d -m 755 %{buildroot}%{_docdir}/%{name}
@@ -76,6 +81,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %{_docdir}/%{name}
 %config(noreplace) %{_sysconfdir}/syslog-ng.conf
+%config(noreplace) %{_sysconfdir}/sysconfig/syslog-ng
 %{_initrddir}/syslog-ng
 /sbin/syslog-ng
 %{_mandir}/man5/syslog-ng.conf.5*
