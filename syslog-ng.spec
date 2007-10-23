@@ -1,6 +1,6 @@
 %define name    syslog-ng
-%define version 2.0.4
-%define release %mkrel 4
+%define version 2.0.5
+%define release %mkrel 1
 
 Name:		%{name}
 Version:	%{version}
@@ -9,14 +9,14 @@ Summary:	Syslog-ng daemon
 Group:		System/Kernel and hardware
 License:	GPL
 Url:		http://www.balabit.com/products/syslog_ng/
-Source0: 	http://www.balabit.com/downloads/syslog-ng/2.0/src/%{name}-%{version}.tar.gz
+Source0: 	http://www.balabit.com/downloads/syslog-ng/2.0/src/%{name}-%{version}.tar.bz2
 Source1:	syslog-ng.sysconfig
 Source2:	syslog-ng.init
 Source3:	syslog-ng.conf
 Source4:	syslog-ng.logrotate
 BuildRequires:	flex
 BuildRequires:	libol-devel >= 0.2.23
-BuildRequires:	net2-devel 
+BuildRequires:	net2-devel
 BuildRequires:	eventlog-devel
 BuildRequires:	glib2-devel
 BuildRequires:	libwrap-devel
@@ -27,12 +27,12 @@ Requires(preun):rpm-helper
 Buildroot:	%{_tmppath}/%{name}-%{version}
 
 %description
-Syslog-ng, as the name shows, is a syslogd replacement, but with new 
-functionality for the new generation. The original syslogd allows 
-messages only to be sorted based on priority/facility pairs; syslog-ng 
-adds the possibility to filter based on message contents using regular 
-expressions. The new configuration scheme is intuitive and powerful. 
-Forwarding logs over TCP and remembering all forwarding hops makes it 
+Syslog-ng, as the name shows, is a syslogd replacement, but with new
+functionality for the new generation. The original syslogd allows
+messages only to be sorted based on priority/facility pairs; syslog-ng
+adds the possibility to filter based on message contents using regular
+expressions. The new configuration scheme is intuitive and powerful.
+Forwarding logs over TCP and remembering all forwarding hops makes it
 ideal for firewalled environments.
 
 %prep
