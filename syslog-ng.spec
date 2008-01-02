@@ -24,6 +24,7 @@ BuildRequires:	openssl-devel
 Provides:       syslog-daemon
 Requires(post):	rpm-helper
 Requires(preun):rpm-helper
+Buildroot:	%{_tmppath}/%{name}-%{version}
 
 %description
 Syslog-ng, as the name shows, is a syslogd replacement, but with new
