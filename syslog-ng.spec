@@ -1,5 +1,5 @@
 %define name    syslog-ng
-%define version 2.0.6
+%define version 2.0.9
 %define release %mkrel 1
 
 Name:		%{name}
@@ -9,7 +9,7 @@ Summary:	Syslog-ng daemon
 Group:		System/Kernel and hardware
 License:	GPL
 Url:		http://www.balabit.com/products/syslog_ng/
-Source0: 	http://www.balabit.com/downloads/syslog-ng/2.0/src/%{name}-%{version}.tar.bz2
+Source0: 	http://www.balabit.com/downloads/files/syslog-ng/sources/stable/src/%name-%version.tar.gz
 Source1:	syslog-ng.sysconfig
 Source2:	syslog-ng.init
 Source3:	syslog-ng.conf
@@ -39,7 +39,7 @@ ideal for firewalled environments.
 %setup -q
 
 %build
-%configure2_5x --sbindir=/sbin --enable-dynamic-linking
+%configure2_5x --bindir=/bin --sbindir=/sbin --enable-dynamic-linking
 %make
 
 %install
@@ -84,5 +84,6 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/sysconfig/syslog-ng
 %{_initrddir}/syslog-ng
 /sbin/syslog-ng
+/bin/loggen
 %{_mandir}/man5/syslog-ng.conf.5*
 %{_mandir}/man8/syslog-ng.8*
