@@ -39,7 +39,7 @@ ideal for firewalled environments.
 %setup -q
 
 %build
-%configure2_5x --bindir=/bin --sbindir=/sbin --enable-dynamic-linking
+%configure2_5x --bindir=/bin --sbindir=/sbin --enable-dynamic-linking --with-pidfile-dir=/var/run/
 %make
 
 %install
