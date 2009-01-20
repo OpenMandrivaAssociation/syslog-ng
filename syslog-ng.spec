@@ -1,5 +1,5 @@
 %define name    syslog-ng
-%define version 2.0.10
+%define version 3.0.1
 %define release %mkrel 1
 
 Name:		%{name}
@@ -9,7 +9,7 @@ Summary:	Syslog-ng daemon
 Group:		System/Kernel and hardware
 License:	GPL
 Url:		http://www.balabit.com/products/syslog_ng/
-Source0: 	http://www.balabit.com/downloads/files/syslog-ng/sources/stable/src/%name-%version.tar.gz
+Source0: 	http://www.balabit.com/downloads/files/syslog-ng/sources/%{version}/source/%{name}_%version.tar.gz
 Source1:	syslog-ng.sysconfig
 Source2:	syslog-ng.init
 Source3:	syslog-ng.conf
@@ -54,14 +54,12 @@ install -m 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/sysconfig/syslog-ng
 
 install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/syslog-ng.conf
 
-install -d -m 755 %{buildroot}%{_docdir}/%{name}
-install -m 644 README AUTHORS COPYING ChangeLog NEWS VERSION %{buildroot}%{_docdir}/%{name}
-install -d -m 755 %{buildroot}%{_docdir}/%{name}/{reference,examples,security}
-install -m 644 doc/examples/* %{buildroot}%{_docdir}/%{name}/examples
-install -m 644 doc/security/* %{buildroot}%{_docdir}/%{name}/security
-install -m 644 doc/reference/syslog-ng.txt %{buildroot}%{_docdir}/%{name}/reference
-tar xzf doc/reference/syslog-ng.html.tar.gz --to-stdout syslog-ng.html/index.html > %{buildroot}%{_docdir}/%{name}/reference/syslog-ng.html
-install -m 644 doc/reference/syslog-ng.txt %{buildroot}%{_docdir}/%{name}/reference
+#install -d -m 755 %{buildroot}%{_docdir}/%{name}
+
+#install -m 644 README AUTHORS COPYING ChangeLog NEWS VERSION %{buildroot}%{_docdir}/%{name}
+#install -d -m 755 %{buildroot}%{_docdir}/%{name}/{reference,examples,security}
+#install -m 644 doc/examples/* %{buildroot}%{_docdir}/%{name}/examples
+#install -m 644 doc/security/* %{buildroot}%{_docdir}/%{name}/security
 
 %post
 %_post_service %{name}
@@ -79,7 +77,8 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
-%{_docdir}/%{name}
+%doc README AUTHORS COPYING ChangeLog NEWS VERSION
+%doc doc/examples doc/security doc/xsd
 %config(noreplace) %{_sysconfdir}/syslog-ng.conf
 %config(noreplace) %{_sysconfdir}/sysconfig/syslog-ng
 %{_initrddir}/syslog-ng
