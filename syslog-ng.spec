@@ -14,6 +14,7 @@ Source1:	syslog-ng.sysconfig
 Source2:	syslog-ng.init
 Source3:	syslog-ng.conf
 Source4:	syslog-ng.logrotate
+Source5:	http://www.balabit.com/dl/guides/syslog-ng-v3.0-guide-admin-en.pdf
 BuildRequires:	flex
 BuildRequires:	libol-devel >= 0.2.23
 BuildRequires:	net2-devel
@@ -37,9 +38,14 @@ ideal for firewalled environments.
 
 %prep
 %setup -q
+cp %{SOURCE5} syslog-ng-v3.0-guide-admin-en.pdf
 
 %build
-%configure2_5x --bindir=/bin --sbindir=/sbin --enable-dynamic-linking --with-pidfile-dir=/var/run/
+%configure2_5x \
+    --bindir=/bin \
+    --sbindir=/sbin \
+    --enable-dynamic-linking \
+    --with-pidfile-dir=%{_localstatedir}/run
 %make
 
 %install
@@ -51,15 +57,7 @@ install -d -m 755 %{buildroot}%{_initrddir}
 install -m 755 %{SOURCE2} %{buildroot}%{_initrddir}/syslog-ng
 install -d -m 755 %{buildroot}%{_sysconfdir}/sysconfig
 install -m 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/sysconfig/syslog-ng
-
 install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/syslog-ng.conf
-
-#install -d -m 755 %{buildroot}%{_docdir}/%{name}
-
-#install -m 644 README AUTHORS COPYING ChangeLog NEWS VERSION %{buildroot}%{_docdir}/%{name}
-#install -d -m 755 %{buildroot}%{_docdir}/%{name}/{reference,examples,security}
-#install -m 644 doc/examples/* %{buildroot}%{_docdir}/%{name}/examples
-#install -m 644 doc/security/* %{buildroot}%{_docdir}/%{name}/security
 
 %post
 %_post_service %{name}
@@ -78,7 +76,7 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %doc README AUTHORS COPYING ChangeLog NEWS VERSION
-%doc doc/examples doc/security doc/xsd
+%doc doc/examples doc/security doc/xsd syslog-ng-v3.0-guide-admin-en.pdf
 %config(noreplace) %{_sysconfdir}/syslog-ng.conf
 %config(noreplace) %{_sysconfdir}/sysconfig/syslog-ng
 %{_initrddir}/syslog-ng
