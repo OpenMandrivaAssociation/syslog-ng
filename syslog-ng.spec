@@ -1,6 +1,6 @@
 %define name    syslog-ng
 %define version 3.0.1
-%define release %mkrel 3
+%define release %mkrel 4
 
 Name:		%{name}
 Version:	%{version}
@@ -15,6 +15,7 @@ Source2:	syslog-ng.init
 Source3:	syslog-ng.conf
 Source4:	syslog-ng.logrotate
 Source5:	http://www.balabit.com/dl/guides/syslog-ng-v3.0-guide-admin-en.pdf
+Patch0:		syslog-ng-3.0.1-user-resolve.patch
 BuildRequires:	flex
 BuildRequires:	libol-devel >= 0.2.23
 BuildRequires:	net2-devel
@@ -38,6 +39,7 @@ ideal for firewalled environments.
 
 %prep
 %setup -q
+%patch0 -p1 -b .group-user-resolve
 cp %{SOURCE5} syslog-ng-v3.0-guide-admin-en.pdf
 
 %build
@@ -54,7 +56,7 @@ rm -rf %{buildroot}
 
 # init script
 install -d -m 755 %{buildroot}%{_initrddir}
-install -m 755 %{SOURCE2} %{buildroot}%{_initrddir}/syslog-ng
+install -m 744 %{SOURCE2} %{buildroot}%{_initrddir}/syslog-ng
 install -d -m 755 %{buildroot}%{_sysconfdir}/sysconfig
 install -m 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/sysconfig/syslog-ng
 install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/syslog-ng.conf
