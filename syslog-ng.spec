@@ -1,6 +1,6 @@
 %define name    syslog-ng
 %define version 3.0.1
-%define release %mkrel 4
+%define release %mkrel 5
 
 Name:		%{name}
 Version:	%{version}
@@ -56,7 +56,7 @@ rm -rf %{buildroot}
 
 # init script
 install -d -m 755 %{buildroot}%{_initrddir}
-install -m 744 %{SOURCE2} %{buildroot}%{_initrddir}/syslog-ng
+install -m 755 %{SOURCE2} %{buildroot}%{_initrddir}/syslog-ng
 install -d -m 755 %{buildroot}%{_sysconfdir}/sysconfig
 install -m 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/sysconfig/syslog-ng
 install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/syslog-ng.conf
