@@ -1,6 +1,6 @@
 %define name    syslog-ng
 %define version 3.0.1
-%define release %mkrel 5
+%define release %mkrel 6
 
 Name:		%{name}
 Version:	%{version}
@@ -18,7 +18,7 @@ Source5:	http://www.balabit.com/dl/guides/syslog-ng-v3.0-guide-admin-en.pdf
 Patch0:		syslog-ng-3.0.1-user-resolve.patch
 BuildRequires:	flex
 BuildRequires:	libol-devel >= 0.2.23
-BuildRequires:	net2-devel
+BuildRequires:	net-devel >= 1.1.3
 BuildRequires:	eventlog-devel
 BuildRequires:	glib2-devel
 BuildRequires:	libwrap-devel
@@ -26,7 +26,7 @@ BuildRequires:	openssl-devel
 Provides:       syslog-daemon
 Requires(post):	rpm-helper
 Requires(preun):rpm-helper
-Buildroot:	%{_tmppath}/%{name}-%{version}
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 Syslog-ng, as the name shows, is a syslogd replacement, but with new
