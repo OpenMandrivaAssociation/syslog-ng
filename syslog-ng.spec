@@ -1,6 +1,6 @@
 %define name    syslog-ng
 %define version 3.0.4
-%define release %mkrel 1
+%define release %mkrel 2
 
 Name:		%{name}
 Version:	%{version}
@@ -15,6 +15,7 @@ Source2:	syslog-ng.init
 Source3:	syslog-ng.conf
 Source4:	syslog-ng.logrotate
 Source5:	http://www.balabit.com/dl/guides/syslog-ng-v3.0-guide-admin-en.pdf
+Patch:      syslog-ng-3.0.4-fix-pattern-database-location.patch
 BuildRequires:	flex
 BuildRequires:	libol-devel >= 0.2.23
 BuildRequires:	net-devel >= 1.1.3
@@ -22,6 +23,7 @@ BuildRequires:	eventlog-devel
 BuildRequires:	glib2-devel
 BuildRequires:	libwrap-devel
 BuildRequires:	openssl-devel
+BuildRequires:	dbi-devel
 Provides:       syslog-daemon
 Requires(post):	rpm-helper
 Requires(preun):rpm-helper
@@ -38,7 +40,9 @@ ideal for firewalled environments.
 
 %prep
 %setup -q
+%patch -p 1
 cp %{SOURCE5} syslog-ng-v3.0-guide-admin-en.pdf
+autoreconf -fi
 
 %build
 %configure2_5x \
