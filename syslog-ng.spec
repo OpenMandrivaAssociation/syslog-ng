@@ -64,7 +64,7 @@ install -d -m 755 %{buildroot}%{_sysconfdir}/sysconfig
 install -m 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/sysconfig/syslog-ng
 install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/syslog-ng.conf
 
-install -m 755 %{buildroot}%{_sysconfdir}/syslog-ng.d
+install -d -m 755 %{buildroot}%{_sysconfdir}/syslog-ng.d
 
 %post
 %_post_service %{name}
