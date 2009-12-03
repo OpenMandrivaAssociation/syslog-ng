@@ -64,6 +64,8 @@ install -d -m 755 %{buildroot}%{_sysconfdir}/sysconfig
 install -m 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/sysconfig/syslog-ng
 install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/syslog-ng.conf
 
+install -m 755 %{buildroot}%{_sysconfdir}/syslog-ng.d
+
 %post
 %_post_service %{name}
 
@@ -79,6 +81,7 @@ rm -rf %{buildroot}
 %doc doc/examples doc/security doc/xsd syslog-ng-v3.0-guide-admin-en.pdf
 %config(noreplace) %{_sysconfdir}/syslog-ng.conf
 %config(noreplace) %{_sysconfdir}/sysconfig/syslog-ng
+%{_sysconfdir}/syslog-ng.d
 %{_initrddir}/syslog-ng
 /sbin/syslog-ng
 /bin/loggen
