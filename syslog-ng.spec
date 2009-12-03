@@ -1,6 +1,7 @@
 %define name    syslog-ng
-%define version 3.0.4
-%define release %mkrel 3
+%define version 3.1
+%define pre     beta1
+%define release %mkrel 0.%{pre}.1
 
 Name:		%{name}
 Version:	%{version}
@@ -9,7 +10,7 @@ Summary:	Syslog-ng daemon
 Group:		System/Kernel and hardware
 License:	GPL
 Url:		http://www.balabit.com/products/syslog_ng/
-Source0: 	http://www.balabit.com/downloads/files/syslog-ng/sources/%{version}/source/%{name}_%version.tar.gz
+Source0: 	http://www.balabit.com/downloads/files/syslog-ng/sources/%{version}/source/%{name}_%{version}%{pre}.tar.gz
 Source1:	syslog-ng.sysconfig
 Source2:	syslog-ng.init
 Source3:	syslog-ng.conf
@@ -39,7 +40,7 @@ Forwarding logs over TCP and remembering all forwarding hops makes it
 ideal for firewalled environments.
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{version}%{pre}
 %patch -p 1
 cp %{SOURCE5} syslog-ng-v3.0-guide-admin-en.pdf
 autoreconf -fi
@@ -81,5 +82,7 @@ rm -rf %{buildroot}
 %{_initrddir}/syslog-ng
 /sbin/syslog-ng
 /bin/loggen
+/bin/pdbtool
+%{_mandir}/man1/pdbtool.1*
 %{_mandir}/man5/syslog-ng.conf.5*
 %{_mandir}/man8/syslog-ng.8*
