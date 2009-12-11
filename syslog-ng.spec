@@ -1,7 +1,7 @@
 %define name    syslog-ng
 %define version 3.1
 %define pre     beta1
-%define release %mkrel 0.%{pre}.1
+%define release %mkrel 0.%{pre}.2
 
 Name:		%{name}
 Version:	%{version}
@@ -15,7 +15,7 @@ Source1:	syslog-ng.sysconfig
 Source2:	syslog-ng.init
 Source3:	syslog-ng.conf
 Source4:	syslog-ng.logrotate
-Source5:	http://www.balabit.com/dl/guides/syslog-ng-v3.0-guide-admin-en.pdf
+Source5:	http://people.balabit.hu/frobert/syslog-ng-v3.1admin-guide-en-1ed-draft.pdf
 Patch:      syslog-ng-3.0.4-fix-pattern-database-location.patch
 BuildRequires:	flex
 BuildRequires:	libol-devel >= 0.2.23
