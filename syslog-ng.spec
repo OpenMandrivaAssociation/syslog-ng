@@ -1,7 +1,7 @@
 %define name    syslog-ng
 %define version 3.1
 %define pre     beta2
-%define release %mkrel 0.%{pre}.1
+%define release %mkrel 0.%{pre}.2
 
 Name:		%{name}
 Version:	%{version}
