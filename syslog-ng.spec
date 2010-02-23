@@ -1,7 +1,7 @@
 %define name    syslog-ng
 %define version 3.1
 %define pre     beta2
-%define release %mkrel 0.%{pre}.3
+%define release %mkrel 0.%{pre}.4
 
 Name:		%{name}
 Version:	%{version}
@@ -16,6 +16,7 @@ Source2:	syslog-ng.init
 Source3:	syslog-ng.conf
 Source4:	syslog-ng.logrotate
 Source5:	http://people.balabit.hu/frobert/syslog-ng-v3.1admin-guide-en-1ed-draft.pdf
+Source6:	syslog-ng.sleep
 Patch:      syslog-ng-3.0.4-fix-pattern-database-location.patch
 BuildRequires:	flex
 BuildRequires:	libol-devel >= 0.2.23
@@ -63,6 +64,8 @@ install -m 755 %{SOURCE2} %{buildroot}%{_initrddir}/syslog-ng
 install -d -m 755 %{buildroot}%{_sysconfdir}/sysconfig
 install -m 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/sysconfig/syslog-ng
 install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/syslog-ng.conf
+install -d -m 755 %{buildroot}%{_libdir}/pm-utils/sleep.d
+install -m 755 %{SOURCE6} %{buildroot}%{_libdir}/pm-utils/sleep.d/05syslog-ng
 
 install -d -m 755 %{buildroot}%{_sysconfdir}/syslog-ng.d
 
@@ -86,6 +89,7 @@ rm -rf %{buildroot}
 /sbin/syslog-ng
 /bin/loggen
 /bin/pdbtool
+%{_libdir}/pm-utils/sleep.d/05syslog-ng
 %{_mandir}/man1/pdbtool.1*
 %{_mandir}/man5/syslog-ng.conf.5*
 %{_mandir}/man8/syslog-ng.8*
