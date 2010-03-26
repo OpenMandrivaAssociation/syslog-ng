@@ -1,7 +1,6 @@
 %define name    syslog-ng
-%define version 3.1
-%define pre     beta2
-%define release %mkrel 0.%{pre}.4
+%define version 3.1.0
+%define release %mkrel 1
 
 Name:		%{name}
 Version:	%{version}
@@ -10,12 +9,12 @@ Summary:	Syslog-ng daemon
 Group:		System/Kernel and hardware
 License:	GPL
 Url:		http://www.balabit.com/products/syslog_ng/
-Source0: 	http://www.balabit.com/downloads/files/syslog-ng/sources/%{version}/source/%{name}_%{version}%{pre}.tar.gz
+Source0: 	http://www.balabit.com/downloads/files/syslog-ng/open-source-edition/%{version}/source/%{name}_%{version}.tar.gz
 Source1:	syslog-ng.sysconfig
 Source2:	syslog-ng.init
 Source3:	syslog-ng.conf
 Source4:	syslog-ng.logrotate
-Source5:	http://people.balabit.hu/frobert/syslog-ng-v3.1admin-guide-en-1ed-draft.pdf
+Source5:	http://www.balabit.com/dl/guides/syslog-ng-ose-v3.1-guide-admin-en.pdf
 Source6:	syslog-ng.sleep
 Patch:      syslog-ng-3.0.4-fix-pattern-database-location.patch
 BuildRequires:	flex
@@ -41,7 +40,7 @@ Forwarding logs over TCP and remembering all forwarding hops makes it
 ideal for firewalled environments.
 
 %prep
-%setup -q -n %{name}-%{version}%{pre}
+%setup -q -n %{name}-%{version}
 %patch -p 1
 cp %{SOURCE5} syslog-ng-v3.0-guide-admin-en.pdf
 autoreconf -fi
@@ -87,6 +86,7 @@ rm -rf %{buildroot}
 %{_sysconfdir}/syslog-ng.d
 %{_initrddir}/syslog-ng
 /sbin/syslog-ng
+/sbin/syslog-ng-ctl
 /bin/loggen
 /bin/pdbtool
 %{_libdir}/pm-utils/sleep.d/05syslog-ng
