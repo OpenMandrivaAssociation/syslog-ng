@@ -26,6 +26,7 @@ BuildRequires:	libwrap-devel
 BuildRequires:	openssl-devel
 BuildRequires:	dbi-devel
 Provides:       syslog-daemon
+Requires(post):	ccp
 Requires(post):	rpm-helper
 Requires(preun):rpm-helper
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
@@ -69,6 +70,8 @@ install -m 755 %{SOURCE6} %{buildroot}%{_libdir}/pm-utils/sleep.d/05syslog-ng
 install -d -m 755 %{buildroot}%{_sysconfdir}/syslog-ng.d
 
 %post
+ccp -i -d --set NoOrphans -o %{_sysconfdir}/syslog-ng.conf -n %{_sysconfdir}/syslog-ng.conf.rpmnew
+ccp -i -d --set NoOrphans -o %{_sysconfdir}/sysconfig/syslog-ng -n %{_sysconfdir}/sysconfig/syslog-ng.rpmnew
 %_post_service %{name}
 
 %preun
