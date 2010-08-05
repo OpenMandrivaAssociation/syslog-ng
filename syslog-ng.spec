@@ -1,6 +1,6 @@
 %define name    syslog-ng
-%define version 3.1.1
-%define release %mkrel 2
+%define version 3.1.2
+%define release %mkrel 1
 
 Name:		%{name}
 Version:	%{version}
@@ -9,14 +9,14 @@ Summary:	Syslog-ng daemon
 Group:		System/Kernel and hardware
 License:	GPL
 Url:		http://www.balabit.com/products/syslog_ng/
-Source0: 	http://www.balabit.com/downloads/files/syslog-ng/open-source-edition/%{version}/source/%{name}_%{version}.tar.gz
+Source0: 	http://www.balabit.com/downloads/files/syslog-ng/open-source-edition/%{version}/source/syslog-ng_%{version}.tar.gz
+Patch0:     syslog-ng-3.1.2-fix-variable-files-location.patch
 Source1:	syslog-ng.sysconfig
 Source2:	syslog-ng.init
 Source3:	syslog-ng.conf
 Source4:	syslog-ng.logrotate
 Source5:	http://www.balabit.com/dl/guides/syslog-ng-ose-v3.1-guide-admin-en.pdf
 Source6:	syslog-ng.sleep
-Patch:      syslog-ng-3.0.4-fix-pattern-database-location.patch
 BuildRequires:	flex
 BuildRequires:	libol-devel >= 0.2.23
 BuildRequires:	net-devel >= 1.1.3
@@ -42,9 +42,9 @@ ideal for firewalled environments.
 
 %prep
 %setup -q -n %{name}-%{version}
-%patch -p 1
+%patch0 -p 1
 cp %{SOURCE5} syslog-ng-v3.0-guide-admin-en.pdf
-autoreconf -fi
+autoreconf -i
 
 %build
 %configure2_5x \
@@ -68,6 +68,8 @@ install -d -m 755 %{buildroot}%{_libdir}/pm-utils/sleep.d
 install -m 755 %{SOURCE6} %{buildroot}%{_libdir}/pm-utils/sleep.d/05syslog-ng
 
 install -d -m 755 %{buildroot}%{_sysconfdir}/syslog-ng.d
+install -d -m 755 %{buildroot}%{_sysconfdir}/patterndb.d
+install -d -m 755 %{buildroot}%{_localstatedir}/lib/syslog-ng
 
 %post
 ccp -i -d --set NoOrphans -o %{_sysconfdir}/syslog-ng.conf -n %{_sysconfdir}/syslog-ng.conf.rpmnew
@@ -87,12 +89,15 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/syslog-ng.conf
 %config(noreplace) %{_sysconfdir}/sysconfig/syslog-ng
 %{_sysconfdir}/syslog-ng.d
+%{_sysconfdir}/patterndb.d
 %{_initrddir}/syslog-ng
 /sbin/syslog-ng
 /sbin/syslog-ng-ctl
 /bin/loggen
 /bin/pdbtool
+/bin/update-patterndb
 %{_libdir}/pm-utils/sleep.d/05syslog-ng
 %{_mandir}/man1/pdbtool.1*
 %{_mandir}/man5/syslog-ng.conf.5*
 %{_mandir}/man8/syslog-ng.8*
+%{_localstatedir}/lib/syslog-ng
