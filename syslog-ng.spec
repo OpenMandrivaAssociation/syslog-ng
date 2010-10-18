@@ -1,7 +1,9 @@
 %define name    syslog-ng
 %define version 3.2
 %define beta beta1
-%define release %mkrel 0.%{beta}.1
+%define release %mkrel 0.%{beta}.2
+# syslog-ng is now plugins based
+%define _disable_ld_no_undefined 1
 
 %define major 0
 %define libname %mklibname syslog-ng %{major}
@@ -15,7 +17,6 @@ Group:		System/Kernel and hardware
 License:	GPL
 Url:		http://www.balabit.com/products/syslog_ng/
 Source0: 	http://www.balabit.com/downloads/files/syslog-ng/open-source-edition/%{version}/source/%{name}_%{version}%{beta}.tar.gz
-Patch0:     syslog-ng-3.2beta1-fix-linking.patch
 Source1:	syslog-ng.sysconfig
 Source2:	syslog-ng.init
 Source3:	syslog-ng.conf
@@ -65,8 +66,6 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n %{name}-%{version}%{beta}
-%patch0 -p 1
-autoreconf -f -i
 
 cp %{SOURCE5} syslog-ng-ose-v3.2-guide-admin-en-draft.pdf
 
@@ -84,7 +83,8 @@ export CFLAGS="%{optflags} -fPIC"
     --enable-ipv6 \
     --enable-tcp-wrapper \
     --enable-spoof-source \
-    --enable-ssl
+    --enable-ssl \
+    --enable-pacct
 %make
 
 %install
