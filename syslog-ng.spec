@@ -1,7 +1,6 @@
 %define name    syslog-ng
-%define version 3.2
-%define beta beta1
-%define release %mkrel 0.%{beta}.2
+%define version 3.2.1
+%define release %mkrel 1
 # syslog-ng is now plugins based
 %define _disable_ld_no_undefined 1
 
@@ -16,12 +15,12 @@ Summary:	Syslog-ng daemon
 Group:		System/Kernel and hardware
 License:	GPL
 Url:		http://www.balabit.com/products/syslog_ng/
-Source0: 	http://www.balabit.com/downloads/files/syslog-ng/open-source-edition/%{version}/source/%{name}_%{version}%{beta}.tar.gz
+Source0: 	http://www.balabit.com/downloads/files/syslog-ng/open-source-edition/%{version}/source/%{name}_%{version}.tar.gz
 Source1:	syslog-ng.sysconfig
 Source2:	syslog-ng.init
 Source3:	syslog-ng.conf
 Source4:	syslog-ng.logrotate
-Source5:	http://www.balabit.com/dl/guides/syslog-ng-ose-v3.2-guide-admin-en-draft.pdf
+Source5:	http://www.balabit.com/dl/guides/syslog-ng-ose-v3.2-guide-admin-en_0.pdf
 Source6:	syslog-ng.sleep
 BuildRequires:	flex
 BuildRequires:	bison
@@ -65,9 +64,9 @@ This package contains libraries and header files for
 developing applications that use %{name}.
 
 %prep
-%setup -q -n %{name}-%{version}%{beta}
+%setup -q -n %{name}-%{version}
 
-cp %{SOURCE5} syslog-ng-ose-v3.2-guide-admin-en-draft.pdf
+cp %{SOURCE5} syslog-ng-ose-v3.2-guide-admin-en_0.pdf
 
 %build
 export CFLAGS="%{optflags} -fPIC"
@@ -132,7 +131,7 @@ fi
 %defattr(-,root,root)
 %doc README AUTHORS COPYING ChangeLog NEWS VERSION
 %doc doc/examples doc/security doc/xsd
-%doc syslog-ng-ose-v3.2-guide-admin-en-draft.pdf
+%doc syslog-ng-ose-v3.2-guide-admin-en_0.pdf
 %dir %{_sysconfdir}/syslog-ng  
 %dir %{_sysconfdir}/syslog-ng/syslog-ng.d 
 %dir %{_sysconfdir}/syslog-ng/patterndb.d
@@ -150,6 +149,8 @@ fi
 %{_libdir}/pm-utils/sleep.d/05syslog-ng
 %{_datadir}/syslog-ng
 %{_mandir}/man1/pdbtool.1*
+%{_mandir}/man1/loggen.1*
+%{_mandir}/man1/syslog-ng-ctl.1*
 %{_mandir}/man5/syslog-ng.conf.5*
 %{_mandir}/man8/syslog-ng.8*
 %{_localstatedir}/lib/syslog-ng
