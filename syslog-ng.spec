@@ -1,5 +1,5 @@
 %define name    syslog-ng
-%define version 3.2.1
+%define version 3.2.2
 %define release %mkrel 2
 # syslog-ng is now plugins based
 %define _disable_ld_no_undefined 1
@@ -96,6 +96,8 @@ install -m 755 %{SOURCE2} %{buildroot}%{_initrddir}/syslog-ng
 install -d -m 755 %{buildroot}%{_sysconfdir}/sysconfig
 install -m 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/sysconfig/syslog-ng
 install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/syslog-ng/syslog-ng.conf
+install -d -m 755 %{buildroot}%{_sysconfdir}/logrotate.d
+install -m 644  %{SOURCE4} %{buildroot}%{_sysconfdir}/logrotate.d/syslog-ng
 install -d -m 755 %{buildroot}%{_libdir}/pm-utils/sleep.d
 install -m 755 %{SOURCE6} %{buildroot}%{_libdir}/pm-utils/sleep.d/05syslog-ng
 
@@ -139,6 +141,7 @@ fi
 %config(noreplace) %{_sysconfdir}/syslog-ng/modules.conf  
 %config(noreplace) %{_sysconfdir}/syslog-ng/scl.conf  
 %config(noreplace) %{_sysconfdir}/sysconfig/syslog-ng
+%config(noreplace) %{_sysconfdir}/logrotate.d/syslog-ng
 %{_initrddir}/syslog-ng
 /sbin/syslog-ng
 /sbin/syslog-ng-ctl
