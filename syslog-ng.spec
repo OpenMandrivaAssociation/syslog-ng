@@ -1,6 +1,6 @@
 %define name    syslog-ng
-%define version 3.2.2
-%define release %mkrel 2
+%define version 3.2.3
+%define release %mkrel 1
 # syslog-ng is now plugins based
 %define _disable_ld_no_undefined 1
 
