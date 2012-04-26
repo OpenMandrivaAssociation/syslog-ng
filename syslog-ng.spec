@@ -33,6 +33,7 @@ BuildRequires:	libwrap-devel
 BuildRequires:	openssl-devel
 BuildRequires:	dbi-devel
 BuildRequires:	cap-devel
+BuildRequires:	pkgconfig(json)
 Provides:       syslog-daemon
 
 %description
