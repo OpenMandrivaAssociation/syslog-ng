@@ -1,8 +1,9 @@
-%define name    syslog-ng
-%define version 3.2.4
-%define release %mkrel 2
-# syslog-ng is now plugins based
 %define _disable_ld_no_undefined 1
+%define evtlog_ver	0.2.12
+
+%define name    syslog-ng
+%define version 3.3.5
+%define release 1
 
 %define major 0
 %define libname %mklibname syslog-ng %{major}
@@ -13,38 +14,39 @@ Version:	%{version}
 Release:	%{release}
 Summary:	Syslog-ng daemon
 Group:		System/Kernel and hardware
-License:	GPL
+License:	GPLv2 LGPLv2+
 Url:		http://www.balabit.com/products/syslog_ng/
 Source0: 	http://www.balabit.com/downloads/files/syslog-ng/open-source-edition/%{version}/source/%{name}_%{version}.tar.gz
-Source1:	syslog-ng.sysconfig
-Source2:	syslog-ng.init
+Source1:	http://www.balabit.com/support/documentation/syslog-ng-ose-v3.2-guide-admin-en.pdf
+Source2:	syslog-ng.sysconfig
 Source3:	syslog-ng.conf
 Source4:	syslog-ng.logrotate
-Source5:	http://www.balabit.com/dl/guides/syslog-ng-ose-v3.2-guide-admin-en_0.pdf
+Source5:	syslog-ng.init
 Source6:	syslog-ng.sleep
+Source7:	syslog-ng.service
 BuildRequires:	flex
 BuildRequires:	bison
-BuildRequires:	libol-devel >= 0.2.23
+BuildRequires:	eventlog-devel >= %{evtlog_ver}
 BuildRequires:	net-devel >= 1.1.3
-BuildRequires:	eventlog-devel
 BuildRequires:	glib2-devel
 BuildRequires:	libwrap-devel
 BuildRequires:	openssl-devel
 BuildRequires:	dbi-devel
+BuildRequires:	cap-devel
 Provides:       syslog-daemon
-Requires(post):	ccp
-Requires(post):	rpm-helper
-Requires(preun):rpm-helper
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
-Syslog-ng, as the name shows, is a syslogd replacement, but with new
-functionality for the new generation. The original syslogd allows
-messages only to be sorted based on priority/facility pairs; syslog-ng
-adds the possibility to filter based on message contents using regular
-expressions. The new configuration scheme is intuitive and powerful.
-Forwarding logs over TCP and remembering all forwarding hops makes it
-ideal for firewalled environments.
+Syslog-ng is a flexible and highly scalable system logging application
+that is ideal for creating centralized and trusted logging solutions.
+Syslog-ng enables you to send the log messages of your hosts to remote
+servers using the latest protocol standards : TCP, TLS, X.509 certificates.
+Syslog-ng is able to store log messages in the most popular databases :
+MySQL, PostgreSQL SQLite, Oracle and MSSQL. Syslog-ng can sort the incoming
+log messages based on their content and various parameters like the source
+host, application, and priority. Directories, files and database tables can
+be created dynamically using macros. Complex filtering using regular
+expressions and boolean operators offers almost unlimited flexibility to
+forward only the important log messages to the selected destinations.
 
 %package -n %{libname}
 Summary:        Libraries for %{name}
@@ -65,87 +67,95 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n %{name}-%{version}
-
-cp %{SOURCE5} syslog-ng-ose-v3.2-guide-admin-en_0.pdf
+cp %{SOURCE1} .
 
 %build
-export CFLAGS="%{optflags} -fPIC"
+
+# XXX: workaround for the default configure paths
+%define _sbindir /sbin
+%define _sysconfdir /etc/syslog-ng
+%define _datadir %{_usr}/share/syslog-ng
+%define _libdir /%{_lib}
+%define _localstatedir %{_var}/lib/syslog-ng
+
 %configure2_5x \
-    --sbindir=/sbin \
-    --sysconfdir=%{_sysconfdir}/syslog-ng \
-    --localstatedir=%{_localstatedir}/lib/syslog-ng \
-    --datadir=%{_datadir}/syslog-ng \
-    --libdir=/%{_lib} \
-    --with-pidfile-dir=%{_localstatedir}/run \
-    --with-module-dir=/%{_lib}/syslog-ng \
-    --enable-dynamic-linking \
-    --enable-ipv6 \
-    --enable-tcp-wrapper \
-    --enable-spoof-source \
-    --enable-ssl \
-    --enable-pacct
+	--with-pidfile-dir=%{_var}/run \
+	--with-module-dir=/%{_lib}/syslog-ng \
+	--enable-dynamic-linking \
+	--enable-ipv6 \
+	--enable-linux-caps \
+	--enable-pacct \
+	--enable-spoof-source \
+	--enable-ssl \
+	--enable-tcp-wrapper
+	 # --enable-env-wrapper \
 %make
 
 %install
-rm -rf %{buildroot}
+
 %makeinstall_std
 
-# init script
-install -d -m 755 %{buildroot}%{_initrddir}
-install -m 755 %{SOURCE2} %{buildroot}%{_initrddir}/syslog-ng
-install -d -m 755 %{buildroot}%{_sysconfdir}/sysconfig
-install -m 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/sysconfig/syslog-ng
-install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/syslog-ng/syslog-ng.conf
-install -d -m 755 %{buildroot}%{_sysconfdir}/logrotate.d
-install -m 644  %{SOURCE4} %{buildroot}%{_sysconfdir}/logrotate.d/syslog-ng
-install -d -m 755 %{buildroot}%{_libdir}/pm-utils/sleep.d
-install -m 755 %{SOURCE6} %{buildroot}%{_libdir}/pm-utils/sleep.d/05syslog-ng
+# XXX: enforce default paths
+%define _sbindir /sbin
+%define _sysconfdir /etc
+%define _datadir /usr/share
+%define _libdir /usr/%{_lib}
+%define _localstatedir /var
 
 install -d -m 755 %{buildroot}%{_sysconfdir}/syslog-ng/syslog-ng.d
 install -d -m 755 %{buildroot}%{_sysconfdir}/syslog-ng/patterndb.d
+
+install -d -m 755 %{buildroot}%{_sysconfdir}/sysconfig
+install -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/syslog-ng
+
+install -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/syslog-ng/syslog-ng.conf
+
+install -d -m 755 %{buildroot}%{_sysconfdir}/logrotate.d
+install -m 644  %{SOURCE4} %{buildroot}%{_sysconfdir}/logrotate.d/syslog-ng
+
+# init script
+install -d -m 755 %{buildroot}%{_initrddir}
+install -m 755 %{SOURCE5} %{buildroot}%{_initrddir}/syslog-ng
+
+install -d -m 755 %{buildroot}%{_libdir}/pm-utils/sleep.d
+install -m 755 %{SOURCE6} %{buildroot}%{_libdir}/pm-utils/sleep.d/05syslog-ng
+
+install -d -m 755 %{buildroot}%{_unitdir}
+install -m 644 %{SOURCE7} %{buildroot}%{_unitdir}/syslog-ng.service
+
 install -d -m 755 %{buildroot}%{_localstatedir}/lib/syslog-ng
 
+rm -f %{buildroot}/%{_lib}/*.la
+mv %{buildroot}/%{_lib}/pkgconfig %{buildroot}%{_libdir}/pkgconfig
+
 %post
-ccp -i -d --set NoOrphans \
-    -o %{_sysconfdir}/syslog-ng/syslog-ng.conf \
-    -n %{_sysconfdir}/syslog-ng/syslog-ng.conf.rpmnew
-ccp -i -d --set NoOrphans \
-    -o %{_sysconfdir}/sysconfig/syslog-ng \
-    -n %{_sysconfdir}/sysconfig/syslog-ng.rpmnew
 %_post_service %{name}
+# (cg) Handle a quirk of syslog service installations
+if [ -f %{_sysconfdir}/systemd/system/multi-user.target.wants/%{name}.service -a ! -f %{_sysconfdir}/systemd/system/syslog.service ]; then
+  cp -a %{_sysconfdir}/systemd/system/multi-user.target.wants/%{name}.service %{_sysconfdir}/systemd/system/syslog.service
+fi
 
 %preun
 %_preun_service %{name}
 
-%clean
-rm -rf %{buildroot}
-
-%triggerprein -- syslog-ng < 3.2
-# move the configuration files in new location
-if [ ! -d /etc/syslog-ng ]; then
-    mkdir /etc/syslog-ng
-    mv /etc/syslog-ng.conf /etc/syslog-ng
-    mv /etc/syslog-ng.d /etc/syslog-ng
-    mv /etc/patterndb.d /etc/syslog-ng
-fi
-
 %files
 %defattr(-,root,root)
-%doc README AUTHORS COPYING ChangeLog NEWS VERSION
-%doc doc/examples doc/security doc/xsd
-%doc syslog-ng-ose-v3.2-guide-admin-en_0.pdf
+%doc AUTHORS ChangeLog COPYING NEWS VERSION
+%doc doc/security doc/xsd
+%doc syslog-ng-ose-v3.2-guide-admin-en.pdf
 %dir %{_sysconfdir}/syslog-ng  
 %dir %{_sysconfdir}/syslog-ng/syslog-ng.d 
 %dir %{_sysconfdir}/syslog-ng/patterndb.d
+%dir /%{_lib}/syslog-ng
 %config(noreplace) %{_sysconfdir}/syslog-ng/syslog-ng.conf  
 %config(noreplace) %{_sysconfdir}/syslog-ng/modules.conf  
 %config(noreplace) %{_sysconfdir}/syslog-ng/scl.conf  
 %config(noreplace) %{_sysconfdir}/sysconfig/syslog-ng
 %config(noreplace) %{_sysconfdir}/logrotate.d/syslog-ng
 %{_initrddir}/syslog-ng
-/sbin/syslog-ng
-/sbin/syslog-ng-ctl
-/%{_lib}/syslog-ng
+%{_unitdir}/syslog-ng.service
+%{_sbindir}/syslog-ng
+%{_sbindir}/syslog-ng-ctl
 %{_bindir}/loggen
 %{_bindir}/pdbtool
 %{_bindir}/update-patterndb
@@ -159,10 +169,28 @@ fi
 %{_localstatedir}/lib/syslog-ng
 
 %files -n %{libname}
-%defattr(-,root,root)
-/%{_lib}/*.so.*
+/%{_lib}/libsyslog-ng-%{version}.so
 
 %files -n %{develname}
-%defattr(-,root,root)
-/%{_lib}/*.so
-/%{_lib}/*.la
+/%{_lib}/libsyslog-ng.so
+/%{_lib}/%{name}/libafmongodb.so
+/%{_lib}/%{name}/libafprog.so
+/%{_lib}/%{name}/libafsocket-notls.so
+/%{_lib}/%{name}/libafsocket-tls.so
+/%{_lib}/%{name}/libafsocket.so
+/%{_lib}/%{name}/libafsql.so
+/%{_lib}/%{name}/libafuser.so
+/%{_lib}/%{name}/libbasicfuncs.so
+/%{_lib}/%{name}/libconfgen.so
+/%{_lib}/%{name}/libconvertfuncs.so
+/%{_lib}/%{name}/libcsvparser.so
+/%{_lib}/%{name}/libdbparser.so
+/%{_lib}/%{name}/libdummy.so
+/%{_lib}/%{name}/libpacctformat.so
+/%{_lib}/%{name}/libsyslog-ng-crypto.so
+/%{_lib}/%{name}/libsyslogformat.so
+/%{_lib}/%{name}/libtfjson.so
+/%{_lib}/%{name}/libaffile.so
+
+%{_libdir}/pkgconfig/syslog-ng.pc
+%{_includedir}/syslog-ng
