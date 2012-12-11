@@ -1,9 +1,2 @@
 sources:
-  "syslog-ng_3.3.5.tar.gz:"	0c8b85079b60c68c4279bcd4124b1e3c6358407b
-  "syslog-ng.conf:"	c4934b6ec24ac0bb11c63895f31a8b38d20913b8
-  "syslog-ng.init:"	402cd77ce68d5b050c6bc893267e1d2fb5299943
-  "syslog-ng.logrotate:"	fcf0925f605e3c4361a07d6fe69a0e4e9574a66b
-  "syslog-ng-ose-v3.2-guide-admin-en.pdf:"	02a5bc6852076b01863bb7bd259e28c7956e96e5
-  "syslog-ng.service:"	5870e574a5eafc74bfda200408bc3f00d37a2bd8
-  "syslog-ng.sleep:"	13b19dda3af376cdb3642df97dccbac260f2cf94
-  "syslog-ng.sysconfig:"	e8737569cba78421fbe02a985231f0dac16c8ac7
+  "syslog-ng_3.3.5.tar.gz": 0c8b85079b60c68c4279bcd4124b1e3c6358407b

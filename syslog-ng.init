@@ -1,0 +1,87 @@
+#! /bin/sh
+
+### BEGIN INIT INFO
+# Provides: $syslog
+# Should-Start: $network mysqld postgresql
+# Default-Start: 2 3 4 5
+# Short-Description: System and kernel flexible logging daemon
+# Description: Syslog is the facility used by many daemons to log messages.
+#              Syslog-ng is a flexible implementation of syslog.
+### END INIT INFO
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Configuration variables
+SYSLOGNG_OPTIONS="-F -p /var/run/syslogd.pid"
+if [ -f /etc/sysconfig/syslog-ng ] ; then
+    . /etc/sysconfig/syslog-ng
+fi
+
+# Other variables
+NAME=syslog-ng
+LOCKFILE=/var/lock/subsys/syslog-ng
+
+start() {
+    if [ ! -f $LOCKFILE ]; then
+        gprintf "Starting %s" $NAME
+        daemon "syslog-ng" $SYSLOGNG_OPTIONS
+        rc=$?
+        echo
+        [ $rc -eq 0 ] && touch $LOCKFILE
+    fi
+}
+
+stop() {
+    echo -n "Stopping %s" "$NAME"
+    killproc syslog-ng
+    rc=$?
+    echo
+    [ $rc -eq 0 ] && rm -f $LOCKFILE
+}
+
+restart() {
+    stop
+    start
+}
+
+reload() {
+    gprintf "Reloading %" "$NAME"
+    killproc syslog-ng -HUP
+    rc=$?
+    echo
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        restart
+        ;;
+    reload)
+        reload
+        ;;
+    condreload)
+        if [ -f $LOCKFILE ]; then
+            reload
+        fi
+        ;;
+    condrestart)
+        if [ -f $LOCKFILE ]; then
+            restart
+        fi
+        ;;
+    status)
+        status syslog-ng
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart|reload|condreload|condrestart|status}"
+        exit 1
+        ;;
+esac
+
+exit $?

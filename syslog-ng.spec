@@ -195,3 +195,201 @@ fi
 
 %{_libdir}/pkgconfig/syslog-ng.pc
 %{_includedir}/syslog-ng
+
+
+%changelog
+* Thu Apr 26 2012 Alexander Khrukin <akhrukin@mandriva.org> 3.3.5-1
++ Revision: 793564
+- BR:pkgconfig(json)
+- version update 3.3.5
+
+  + Oden Eriksson <oeriksson@mandriva.com>
+    - relink against libpcre.so.1
+
+* Thu May 12 2011 Guillaume Rousse <guillomovitch@mandriva.org> 3.2.4-1
++ Revision: 673917
+- update to new version 3.2.4
+
+* Mon May 02 2011 Guillaume Rousse <guillomovitch@mandriva.org> 3.2.3-1
++ Revision: 662718
+- update to new version 3.2.3
+
+* Sun Jan 16 2011 Guillaume Rousse <guillomovitch@mandriva.org> 3.2.2-2
++ Revision: 631158
+- new version
+- ensure logrotate configuration get installed (#62217)
+- let init script handle conditional reload
+
+* Sun Dec 05 2010 Oden Eriksson <oeriksson@mandriva.com> 3.2.1-2mdv2011.0
++ Revision: 609663
+- rebuilt against new libdbi
+
+* Sat Nov 27 2010 Guillaume Rousse <guillomovitch@mandriva.org> 3.2.1-1mdv2011.0
++ Revision: 601850
+- new version
+
+* Mon Oct 18 2010 Guillaume Rousse <guillomovitch@mandriva.org> 3.2-0.beta1.2mdv2011.0
++ Revision: 586603
+- enable pacct support
+- allow plugins to be underlinked
+
+* Sat Oct 16 2010 Guillaume Rousse <guillomovitch@mandriva.org> 3.2-0.beta1.1mdv2011.0
++ Revision: 586096
+- new beta version
+
+* Tue Oct 12 2010 Guillaume Rousse <guillomovitch@mandriva.org> 3.2-0.git.1mdv2011.0
++ Revision: 585240
+- new git snapshot (nearly beta1)
+- configuration files are now in /etc/syslog-ng directory, and package upgrade
+  should take care of transferring them
+- use configuration switches instead of patches to fix files location
+
+* Fri Aug 06 2010 Guillaume Rousse <guillomovitch@mandriva.org> 3.1.2-1mdv2011.0
++ Revision: 566501
+- new version
+- drop previous patch moving patterndb to /usr/share/syslog-ng instead of /var
+- move all variable files under /var/lib/syslog-ng instead of /var
+
+* Wed Jun 09 2010 Raphaël Gertz <rapsys@mandriva.org> 3.1.1-2mdv2010.1
++ Revision: 547311
+- Fix release for rebuild
+- Add merge config
+
+* Mon Apr 12 2010 Guillaume Rousse <guillomovitch@mandriva.org> 3.1.1-1mdv2010.1
++ Revision: 533706
+- new version
+
+  + Funda Wang <fwang@mandriva.org>
+    - rebuild
+
+* Fri Mar 26 2010 Guillaume Rousse <guillomovitch@mandriva.org> 3.1.0-1mdv2010.1
++ Revision: 527592
+- 3.1.0 final
+
+  + Raphaël Gertz <rapsys@mandriva.org>
+    - Remove tabs for 4spaces indentation
+      Enable dir creation to avoid initial start fail on empty system
+
+* Tue Feb 23 2010 Raphaël Gertz <rapsys@mandriva.org> 3.1-0.beta2.4mdv2010.1
++ Revision: 510435
+- Add resume syslog-ng restart script
+  Fix low number of max-connexion (#55807)
+  Fix logrotate script
+
+* Mon Jan 25 2010 Guillaume Rousse <guillomovitch@mandriva.org> 3.1-0.beta2.3mdv2010.1
++ Revision: 496474
+- fix configuration file syntax
+
+* Sun Jan 24 2010 Guillaume Rousse <guillomovitch@mandriva.org> 3.1-0.beta2.2mdv2010.1
++ Revision: 495360
+- cosmetics: get back to plain spaces for indentation in configuration file
+- set catchall flag to all log statements, in order to catch more easily content from external sources (such as postfix chroot)
+
+* Thu Dec 31 2009 Guillaume Rousse <guillomovitch@mandriva.org> 3.1-0.beta2.1mdv2010.1
++ Revision: 484535
+- update to beta2
+
+* Fri Dec 11 2009 Guillaume Rousse <guillomovitch@mandriva.org> 3.1-0.beta1.2mdv2010.1
++ Revision: 476400
+- update admin guide
+- init script: don't remove lock when reloading
+
+* Thu Dec 03 2009 Guillaume Rousse <guillomovitch@mandriva.org> 3.1-0.beta1.1mdv2010.1
++ Revision: 473023
+- use /etc/syslog-ng.d directory for splitted configuration files
+- update administrator guide
+- new version
+
+* Wed Oct 28 2009 Guillaume Rousse <guillomovitch@mandriva.org> 3.0.4-3mdv2010.0
++ Revision: 459853
+- should start after network
+
+* Fri Oct 16 2009 Guillaume Rousse <guillomovitch@mandriva.org> 3.0.4-2mdv2010.0
++ Revision: 457898
+- add dbi-devel build dependency
+- move pattern database default location to %%{_datadir}/%%{name}/patterndb.xml
+
+* Thu Aug 20 2009 Guillaume Rousse <guillomovitch@mandriva.org> 3.0.4-1mdv2010.0
++ Revision: 418417
+- new version
+- drop merged patch
+- drop undocumented %%postun hack
+
+* Thu Jun 04 2009 Oden Eriksson <oeriksson@mandriva.com> 3.0.1-6mdv2010.0
++ Revision: 382701
+- rebuilt against libnet 1.1.3
+
+* Wed May 20 2009 Guillaume Rousse <guillomovitch@mandriva.org> 3.0.1-5mdv2010.0
++ Revision: 377827
+- fix incorrect perms on init scripts, introduced in latest release
+
+* Mon Apr 20 2009 Raphaël Gertz <rapsys@mandriva.org> 3.0.1-4mdv2009.1
++ Revision: 368104
+- Add the same owner, group and perm as msec for log files
+  Increase max-connections to avoid losing log
+  Apply a patch reported upstream to resolve user correctly
+  Change syslog-ng initscript file permissions to fit msec rule
+
+* Sat Jan 31 2009 Raphaël Gertz <rapsys@mandriva.org> 3.0.1-3mdv2009.1
++ Revision: 335906
+- Fix missing s in /var/log/daemons/errors.log file path
+- Fix missing s in /var/log/daemons/errors.log file path
+
+* Sat Jan 31 2009 Guillaume Rousse <guillomovitch@mandriva.org> 3.0.1-2mdv2009.1
++ Revision: 335896
+- add admin guide
+- make default configuration compatible with new version
+- fix pid directory location
+
+  + Michael Scherer <misc@mandriva.org>
+    - fix missing option in configure, so the pidfile is correctly created, as spotted again by rapsys
+    - adapt the config to new syslog ( as proposed by raphale gertz ), now syslog is a reserved word, among others
+
+* Tue Jan 20 2009 Guillaume Rousse <guillomovitch@mandriva.org> 3.0.1-1mdv2009.1
++ Revision: 331909
+- new version
+
+* Sun Jan 04 2009 Jérôme Soyer <saispo@mandriva.org> 2.0.10-1mdv2009.1
++ Revision: 324260
+- New upstream release
+
+* Fri Aug 08 2008 Thierry Vignaud <tv@mandriva.org> 2.0.9-2mdv2009.0
++ Revision: 269400
+- rebuild early 2009.0 package (before pixel changes)
+
+* Sun May 18 2008 Funda Wang <fwang@mandriva.org> 2.0.9-1mdv2009.0
++ Revision: 208579
+- New version 2.0.9
+
+  + Olivier Blin <blino@mandriva.org>
+    - restore BuildRoot
+
+* Tue Dec 18 2007 Jérôme Soyer <saispo@mandriva.org> 2.0.6-1mdv2008.1
++ Revision: 132087
+- New release 2.0.6
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - kill re-definition of %%buildroot on Pixel's request
+
+* Tue Oct 23 2007 Jérôme Soyer <saispo@mandriva.org> 2.0.5-1mdv2008.1
++ Revision: 101437
+- New release 2.0.5
+
+* Thu Aug 30 2007 Guillaume Rousse <guillomovitch@mandriva.org> 2.0.4-4mdv2008.0
++ Revision: 75199
+- add a sysconfig file
+
+* Thu Aug 30 2007 Guillaume Rousse <guillomovitch@mandriva.org> 2.0.4-3mdv2008.0
++ Revision: 75191
+- rewrite init script
+- sanitize reference documentation
+- provides syslog-dameon
+
+* Thu Jul 19 2007 Guillaume Rousse <guillomovitch@mandriva.org> 2.0.4-2mdv2008.0
++ Revision: 53700
+- sync default configuration file with sysklogd one, and set maximum connection number (fix #30790 and #31817)
+
+* Fri Jun 29 2007 Guillaume Rousse <guillomovitch@mandriva.org> 2.0.4-1mdv2008.0
++ Revision: 45712
+- new version
+
