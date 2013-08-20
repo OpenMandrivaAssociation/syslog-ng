@@ -1,3 +1,3 @@
 # options for syslog-ng
 # see syslog-ng(8) for details
-SYSLOGNG_OPTIONS="-F -p /var/run/syslogd.pid"
+OPTIONS="-F"

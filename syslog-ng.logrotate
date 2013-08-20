@@ -1,7 +1,7 @@
 # syslog-ng logrotate configuration
 /var/log/auth.log /var/log/messages /var/log/syslog /var/log/user.log /var/log/boot.log /var/log/drakxtools.log /var/log/mail/*.log /var/log/cron/*.log /var/log/kernel/*.log /var/log/daemons/*.log {
-	sharedscripts
-	postrotate
-		/etc/init.d/syslog-ng condreload || true
-	endscript
+    sharedscripts
+    postrotate
+	/bin/systemctl reload syslog-ng > /dev/null 2>&1 || true
+    endscript
 }
