@@ -6,7 +6,7 @@
 %define _tmpfilescreate() /bin/systemd-tmpfiles --create %{1}.conf
 
 %define name syslog-ng
-%define version 3.4.3
+%define version 3.4.4
 %define release 1
 
 %define major %{version}
