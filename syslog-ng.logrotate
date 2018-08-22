@@ -1,7 +1,11 @@
-# syslog-ng logrotate configuration
-/var/log/auth.log /var/log/messages /var/log/syslog /var/log/user.log /var/log/boot.log /var/log/drakxtools.log /var/log/mail/*.log /var/log/cron/*.log /var/log/kernel/*.log /var/log/daemons/*.log {
+/var/log/cron
+/var/log/maillog
+/var/log/messages
+/var/log/secure
+/var/log/spooler
+{
     sharedscripts
     postrotate
-	/bin/systemctl reload syslog-ng > /dev/null 2>&1 || true
+	/bin/kill -HUP `cat /var/run/syslogd.pid 2> /dev/null` 2> /dev/null || true
     endscript
 }
