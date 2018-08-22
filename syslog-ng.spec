@@ -38,6 +38,7 @@ BuildRequires: java-devel
 BuildRequires: pkgconfig(libcurl)
 BuildRequires: snappy-devel
 BuildRequires: pkgconfig(hiredis)
+BuildRequires: pkgconfig(glib-2.0) pkgconfig(gmodule-2.0) pkgconfig(gthread-2.0)
 
 Requires: logrotate
 Requires(post): systemd-units
