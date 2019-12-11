@@ -7,7 +7,7 @@
 
 Name:    syslog-ng
 Version: 3.17.2
-Release: 2
+Release: 3
 Summary: Next-generation syslog server
 
 Group:   System Environment/Daemons
