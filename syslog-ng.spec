@@ -6,8 +6,8 @@
 %define syslog_ng_major_minor_ver %{syslog_ng_major_ver}.%{syslog_ng_minor_ver}
 
 Name:    syslog-ng
-Version: 3.17.2
-Release: 4
+Version: 3.37.1
+Release: 1
 Summary: Next-generation syslog server
 
 Group:   System Environment/Daemons
