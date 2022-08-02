@@ -167,8 +167,8 @@ developing applications that use %{name}.
 %{__chmod} -c a-x contrib/syslog2ng
 
 # fix authors file
-/usr/bin/iconv -f iso8859-1 -t utf-8 AUTHORS > AUTHORS.conv && \
-    %{__mv} -f AUTHORS.conv AUTHORS
+#/usr/bin/iconv -f iso8859-1 -t utf-8 AUTHORS > AUTHORS.conv && \
+#    %{__mv} -f AUTHORS.conv AUTHORS
 
 
 %build
