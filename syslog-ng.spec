@@ -27,7 +27,7 @@ BuildRequires: json-c-devel
 BuildRequires: libcap-devel
 BuildRequires: pkgconfig(dbi)
 BuildRequires: libnet-devel
-BuildRequires: openssl-devel
+BuildRequires: pkgconfig(openssl)
 BuildRequires: pcre-devel
 BuildRequires: libuuid-devel
 BuildRequires: libesmtp-devel
